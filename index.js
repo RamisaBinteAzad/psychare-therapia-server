@@ -85,6 +85,30 @@ async function run() {
        //   toArray() - array te convert kora hoyeche client side e use er jonno
        res.send(reviews);
      });
+      
+
+ 
+
+  
+
+
+ 
+      app.get("/myReviews", async (req, res) => {
+         
+        let query = {};
+
+        if (req.query.email) {
+          query = {
+            email: req.query.email,
+          };
+        }
+
+        const cursor = reviewsCollection.find(query);
+        const myReviews = await cursor.toArray();
+         
+        res.send(myReviews);
+      });
+
 
 
 
