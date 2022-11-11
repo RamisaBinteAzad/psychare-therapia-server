@@ -21,9 +21,9 @@ async function run() {
       const serviceCollection = client
         .db("psychareTherapia")
         .collection("services");
-       const reviewsCollection = client
-         .db("psychareTherapia")
-         .collection("reviews ");
+      const reviewsCollection = client
+        .db("psychareTherapia")
+        .collection("reviews ");
       //   Get All Services
       app.get("/services", async (req, res) => {
         const query = {};
@@ -67,11 +67,11 @@ async function run() {
         const result = await reviewsCollection.insertOne(review);
         res.send(result);
       });
-     app.get("/reviews", async (req, res) => {
-       //   console.log(req.query);
-       // {} deya hoyeche sabguloke khujar jonno
-       let query = {};
-       console.log(req.query);
+      app.get("/reviews", async (req, res) => {
+        //   console.log(req.query);
+        // {} deya hoyeche sabguloke khujar jonno
+        let query = {};
+        console.log(req.query);
 
         if (req.query.service) {
           query = {
@@ -79,22 +79,14 @@ async function run() {
           };
         }
 
-       const cursor = reviewsCollection.find(query);
-       const reviews = await cursor.toArray();
-       console.log(reviews);
-       //   toArray() - array te convert kora hoyeche client side e use er jonno
-       res.send(reviews);
-     });
-      
+        const cursor = reviewsCollection.find(query);
+        const reviews = await cursor.toArray();
+        console.log(reviews);
+        //   toArray() - array te convert kora hoyeche client side e use er jonno
+        res.send(reviews);
+      });
 
- 
-
-  
-
-
- 
       app.get("/myReviews", async (req, res) => {
-         
         let query = {};
 
         if (req.query.email) {
@@ -105,13 +97,16 @@ async function run() {
 
         const cursor = reviewsCollection.find(query);
         const myReviews = await cursor.toArray();
-         
+
         res.send(myReviews);
       });
-
-
-
-
+      //   Delete
+      app.delete("/myReviews/:id", async (req, res) => {
+        const id = req.params.id;
+        const query = { _id: ObjectId(id) };
+        const result = await reviewsCollection.deleteOne(query);
+        res.send(result);
+      });
     } finally {
   }
 }
